@@ -32,7 +32,7 @@ def printd(dirname, level):
 
 if __name__ == "__main__":
     splitDir = directory.split("/")
-    print(splitDir[len(splitDir)-1])
+    print(Fore.RED + splitDir[len(splitDir)-1] + Style.RESET_ALL)
 
     dirs, files = scanDir(directory)
     for d in dirs:
