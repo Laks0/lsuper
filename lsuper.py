@@ -1,9 +1,15 @@
+import sys
+
 from os import listdir, getcwd
 from os.path import isfile, join, dirname
 
 from colorama import Fore, Style
 
 directory = getcwd()
+
+depth = 1
+if len(sys.argv) > 1:
+    depth = sys.argv[1]
 
 def scanDir(toScan):
     scanned = listdir(toScan)
@@ -30,7 +36,7 @@ def printd(dirname, level):
     text += Fore.GREEN + dirname + Style.RESET_ALL
     print(text)
 
-if __name__ == "__main__":
+def main():
     splitDir = directory.split("/")
     print(Fore.RED + splitDir[len(splitDir)-1] + Style.RESET_ALL)
 
@@ -47,3 +53,12 @@ if __name__ == "__main__":
 
     for f in files:
         printf(f, 0)
+
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "-h":
+            print("lsuper [DEPTH = 1]")
+        else:
+            main()
+    else:
+        main()
