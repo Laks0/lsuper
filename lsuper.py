@@ -1,5 +1,5 @@
 from os import listdir, getcwd
-from os.path import isfile, join
+from os.path import isfile, join, dirname
 
 from colorama import Fore, Style
 
@@ -7,8 +7,6 @@ directory = getcwd()
 
 def scanDir(toScan):
     scanned = listdir(toScan)
-#    dirs = [d for d in scanned if not isfile(join(toScan, d))]
-#    files = [d for d in scanned if isfile(join(toScan, d))]
     dirs = []
     files = []
     for n in scanned:
@@ -25,16 +23,25 @@ def printf(filename, level):
     text += "L" + Fore.BLUE + filename + Style.RESET_ALL
     print(text)
 
+def printd(dirname, level):
+    text = ""
+    for i in range(level + 1):
+        text += "|"
+    text += Fore.GREEN + dirname + Style.RESET_ALL
+    print(text)
+
 if __name__ == "__main__":
-    print(directory)
+    splitDir = directory.split("/")
+    print(splitDir[len(splitDir)-1])
+
     dirs, files = scanDir(directory)
     for d in dirs:
-        print( "| " + d)
+        printd(d, 0)
         
         # Prueba de segundo nivel (a automatizar)
         subdirs, subfiles = scanDir(join(directory, d))
         for dd in subdirs:
-            print ("|| " + dd)
+            printd(dd, 1)
         for ff in subfiles:
             printf(ff, 1)  
 
