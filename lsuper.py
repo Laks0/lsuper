@@ -7,8 +7,15 @@ directory = getcwd()
 
 def scanDir(toScan):
     scanned = listdir(toScan)
-    dirs = [d for d in scanned if not isfile(join(toScan, d))]
-    files = [d for d in scanned if isfile(join(toScan, d))]
+#    dirs = [d for d in scanned if not isfile(join(toScan, d))]
+#    files = [d for d in scanned if isfile(join(toScan, d))]
+    dirs = []
+    files = []
+    for n in scanned:
+        if isfile(join(toScan, n)):
+            files.append(n)
+        else:
+            dirs.append(n)
     return dirs, files
 
 def printf(filename, level):
