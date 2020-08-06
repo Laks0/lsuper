@@ -14,5 +14,13 @@ if __name__ == "__main__":
     dirs, files = scanDir(directory)
     for d in dirs:
         print "| " + d
+        
+        # Prueba de segundo nivel (a automatizar)
+        subdirs, subfiles = scanDir(join(directory, d))
+        for dd in subdirs:
+            print "|| " + dd
+        for ff in subfiles:
+            print "|L " + ff
+
     for f in files:
         print "L " + f
