@@ -1,13 +1,14 @@
 import sys
 
 from os import listdir, getcwd
-from os.path import isfile, join, dirname
+from os.path import isfile, join
 
 from colorama import Fore, Style, Back
 
 directory = getcwd()
 
 depth = 0
+showHidden = True
 onlyFiles = False
 onlyDirs = False
 
@@ -46,6 +47,9 @@ def printd(dirname, level):
 def printFullDir(path, layer):
     dirs, files = scanDir(path)
     for d in dirs:
+        if d[0] == "." and not showHidden:
+            continue
+
         if not onlyFiles:
             printd(d, layer)
 
@@ -54,6 +58,8 @@ def printFullDir(path, layer):
 
     if not onlyDirs:
         for f in files:
+            if f[0] == "." and not showHidden:
+                continue
             printf(f, layer)
 
 def main():
@@ -63,7 +69,7 @@ def main():
     printFullDir(directory, 0)
 
 def printHelp():
-    print("lsuper [-h help] [--onlyFiles] [--onlyDirs] [-d <depth> (0)]")
+    print("lsuper [-h help] [--noHidden] [--onlyFiles] [--onlyDirs] [-d <depth> (0)]")
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
@@ -77,6 +83,8 @@ if __name__ == "__main__":
                 onlyFiles = True
             elif arg == "--onlyDirs":
                 onlyDirs = True
+            elif arg == "--noHidden":
+                showHidden = False
             elif arg == "-h":
                 printHelp()
                 execute = False
