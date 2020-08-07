@@ -8,8 +8,8 @@ from colorama import Fore, Style, Back
 directory = getcwd()
 
 depth = 0
-if len(sys.argv) > 1:
-    depth = int(sys.argv[1])
+onlyFiles = False
+onlyDirs = False
 
 def scanDir(toScan):
     scanned = listdir(toScan)
@@ -46,11 +46,15 @@ def printd(dirname, level):
 def printFullDir(path, layer):
     dirs, files = scanDir(path)
     for d in dirs:
-        printd(d, layer)
+        if not onlyFiles:
+            printd(d, layer)
+
         if layer < depth:
             printFullDir(join(path, d), layer + 1)
-    for f in files:
-        printf(f, layer)
+
+    if not onlyDirs:
+        for f in files:
+            printf(f, layer)
 
 def main():
     splitDir = directory.split("/")
@@ -58,11 +62,26 @@ def main():
 
     printFullDir(directory, 0)
 
+def printHelp():
+    print("lsuper [-h help] [--onlyFiles] [--onlyDirs] [-d <depth> (0)]")
+
 if __name__ == "__main__":
     if len(sys.argv) > 1:
-        if sys.argv[1] == "-h":
-            print("lsuper [DEPTH = 0]")
-        else:
+        execute = True
+        for i, arg in enumerate(sys.argv):
+            if i == 0:
+                continue
+            if arg == "-d":
+                depth = int(sys.argv[i+1])
+            elif arg == "--onlyFiles":
+                onlyFiles = True
+            elif arg == "--onlyDirs":
+                onlyDirs = True
+            elif arg == "-h":
+                printHelp()
+                execute = False
+                break
+        if execute:
             main()
     else:
         main()
