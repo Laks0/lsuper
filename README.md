@@ -1,5 +1,12 @@
 # lsuper
 
+### Instalación
+
+correr con 
+
+	python3 /ruta/al/archivo/lsuper.py
+es recomendable crear un alias "lsuper" al comando
+
 ### Uso
 
 	lsuper -h
