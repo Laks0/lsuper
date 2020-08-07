@@ -3,13 +3,13 @@ import sys
 from os import listdir, getcwd
 from os.path import isfile, join, dirname
 
-from colorama import Fore, Style
+from colorama import Fore, Style, Back
 
 directory = getcwd()
 
-depth = 1
+depth = 0
 if len(sys.argv) > 1:
-    depth = sys.argv[1]
+    depth = int(sys.argv[1])
 
 def scanDir(toScan):
     scanned = listdir(toScan)
@@ -20,44 +20,43 @@ def scanDir(toScan):
             files.append(n)
         else:
             dirs.append(n)
+    dirs.sort()
+    files.sort()
     return dirs, files
 
 def printf(filename, level):
     text = ""
     for i in range(level):
         text += "|"
-    text += "L" + Fore.BLUE + filename + Style.RESET_ALL
+    text += "L" + Back.BLACK * (filename[0] == ".") + Fore.BLUE + filename + Style.RESET_ALL
     print(text)
 
 def printd(dirname, level):
     text = ""
     for i in range(level + 1):
         text += "|"
-    text += Fore.GREEN + dirname + Style.RESET_ALL
+    text += Back.BLACK * (dirname[0] == ".") + Fore.GREEN + dirname + Style.RESET_ALL
     print(text)
+
+def printFullDir(path, layer):
+    dirs, files = scanDir(path)
+    for d in dirs:
+        printd(d, layer)
+        if layer < depth:
+            printFullDir(join(path, d), layer + 1)
+    for f in files:
+        printf(f, layer)
 
 def main():
     splitDir = directory.split("/")
     print(Fore.RED + splitDir[len(splitDir)-1] + Style.RESET_ALL)
 
-    dirs, files = scanDir(directory)
-    for d in dirs:
-        printd(d, 0)
-        
-        # Prueba de segundo nivel (a automatizar)
-        subdirs, subfiles = scanDir(join(directory, d))
-        for dd in subdirs:
-            printd(dd, 1)
-        for ff in subfiles:
-            printf(ff, 1)  
-
-    for f in files:
-        printf(f, 0)
+    printFullDir(directory, 0)
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
         if sys.argv[1] == "-h":
-            print("lsuper [DEPTH = 1]")
+            print("lsuper [DEPTH = 0]")
         else:
             main()
     else:
