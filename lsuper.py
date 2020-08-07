@@ -1,9 +1,12 @@
 import sys
 
 from os import listdir, getcwd
-from os.path import isfile, join
+from os.path import isfile, join, getsize
 
 from colorama import Fore, Style, Back
+
+#from humanize import naturalsize
+from human import human
 
 directory = getcwd()
 
@@ -11,6 +14,9 @@ depth = 0
 showHidden = True
 onlyFiles = False
 onlyDirs = False
+minimal = False
+
+infoSpace = 40
 
 def scanDir(toScan):
     scanned = listdir(toScan)
@@ -25,14 +31,34 @@ def scanDir(toScan):
     files.sort()
     return dirs, files
 
-def printf(filename, level):
+def printf(filename, level, path):
+    outputLen = 0
     text = ""
+
     for i in range(level):
         text += "|"
+        outputLen += 1
+
     text += "L"
+    outputLen += 1
+
     text += Back.BLACK * (filename[0] == ".") + Fore.BLUE
+
     text += filename
+    outputLen += len(filename)
+
     text += Style.RESET_ALL
+    if minimal:
+        print(text)
+        return
+
+    for i in range(infoSpace - outputLen): 
+        text += " "
+    text += "|"
+    
+    size = getsize(join(path, filename))
+    text += human(size)
+
     print(text)
 
 def printd(dirname, level):
@@ -56,11 +82,13 @@ def printFullDir(path, layer):
         if layer < depth:
             printFullDir(join(path, d), layer + 1)
 
-    if not onlyDirs:
-        for f in files:
-            if f[0] == "." and not showHidden:
-                continue
-            printf(f, layer)
+    if onlyDirs:
+        return
+    
+    for f in files:
+        if f[0] == "." and not showHidden:
+            continue
+        printf(f, layer, path)
 
 def main():
     splitDir = directory.split("/")
@@ -69,7 +97,7 @@ def main():
     printFullDir(directory, 0)
 
 def printHelp():
-    print("lsuper [-h help] [--noHidden] [--onlyFiles] [--onlyDirs] [-d <depth> (0)]")
+    print("lsuper [-h help] [-m minimal] [--noHidden] [--onlyFiles] [--onlyDirs] [-d <depth> (0)]")
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
@@ -85,6 +113,8 @@ if __name__ == "__main__":
                 onlyDirs = True
             elif arg == "--noHidden":
                 showHidden = False
+            elif arg == "-m":
+                minimal = True
             elif arg == "-h":
                 printHelp()
                 execute = False
