@@ -7,6 +7,10 @@ correr con
 	python3 /ruta/al/archivo/lsuper.py
 es recomendable crear un alias "lsuper" al comando
 
+### Configuración
+
+en el archivo config.py están todos los parámetros por defecto 
+
 ### Uso
 
 	lsuper -h

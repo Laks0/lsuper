@@ -5,20 +5,10 @@ from os.path import isfile, join, getsize
 
 from colorama import Fore, Style, Back
 
-#from humanize import naturalsize
 from human import human
+from config import *
 
 directory = getcwd()
-
-depth = 0
-showHidden = True
-onlyFiles = False
-onlyDirs = False
-minimal = False
-byts = False
-binary = False
-
-infoSpace = 40
 
 def scanDir(toScan):
     scanned = listdir(toScan)
