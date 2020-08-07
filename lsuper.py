@@ -28,14 +28,19 @@ def printf(filename, level):
     text = ""
     for i in range(level):
         text += "|"
-    text += "L" + Back.BLACK * (filename[0] == ".") + Fore.BLUE + filename + Style.RESET_ALL
+    text += "L"
+    text += Back.BLACK * (filename[0] == ".") + Fore.BLUE
+    text += filename
+    text += Style.RESET_ALL
     print(text)
 
 def printd(dirname, level):
     text = ""
     for i in range(level + 1):
         text += "|"
-    text += Back.BLACK * (dirname[0] == ".") + Fore.GREEN + dirname + Style.RESET_ALL
+    text += Back.BLACK * (dirname[0] == ".") + Fore.GREEN
+    text += dirname
+    text += Style.RESET_ALL
     print(text)
 
 def printFullDir(path, layer):
