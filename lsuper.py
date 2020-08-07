@@ -15,6 +15,8 @@ showHidden = True
 onlyFiles = False
 onlyDirs = False
 minimal = False
+byts = False
+binary = False
 
 infoSpace = 40
 
@@ -57,7 +59,10 @@ def printf(filename, level, path):
     text += "|"
     
     size = getsize(join(path, filename))
-    text += human(size)
+    if byts:
+        text += str(size)
+    else:
+        text += human(size, binary)
 
     print(text)
 
@@ -97,7 +102,7 @@ def main():
     printFullDir(directory, 0)
 
 def printHelp():
-    print("lsuper [-h help] [-m minimal] [--noHidden] [--onlyFiles] [--onlyDirs] [-d <depth> (0)]")
+    print("lsuper [-h help] [-d <depth> (0)] [-m minimal] [-b bytes] [-i binary] [--noHidden] [--onlyFiles] [--onlyDirs]")
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
@@ -115,6 +120,10 @@ if __name__ == "__main__":
                 showHidden = False
             elif arg == "-m":
                 minimal = True
+            elif arg == "-i":
+                binary = True
+            elif arg == "-b":
+                byts = True
             elif arg == "-h":
                 printHelp()
                 execute = False
