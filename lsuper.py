@@ -34,6 +34,7 @@ def printf(filename, level, path):
     text += "L"
     outputLen += 1
 
+    # Colors
     text += Back.BLACK * (filename[0] == ".") + Fore.BLUE
 
     text += filename
@@ -44,13 +45,15 @@ def printf(filename, level, path):
         print(text)
         return
 
+    ### INFOBAR ###
     for i in range(infoSpace - outputLen): 
         text += " "
     text += "|"
     
+    # Size
     size = getsize(join(path, filename))
-    if byts:
-        text += str(size)
+    if force:
+        text += "%.1f" % (size/factor)
     else:
         text += human(size, binary)
 
@@ -92,7 +95,7 @@ def main():
     printFullDir(directory, 0)
 
 def printHelp():
-    print("lsuper [-h help] [-d <depth> (0)] [-m minimal] [-b bytes] [-i binary] [--noHidden] [--onlyFiles] [--onlyDirs]")
+    print("lsuper [-h help] [-d <depth> (0)] [-m minimal] [-f force unit to default] [-fd <name> (b) force unit to one in the dictionary] [-fc <factor> (1) force unit to a specific factor] [-i binary] [--noHidden] [--onlyFiles] [--onlyDirs]")
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
@@ -112,8 +115,14 @@ if __name__ == "__main__":
                 minimal = True
             elif arg == "-i":
                 binary = True
-            elif arg == "-b":
-                byts = True
+            elif arg == "-f":
+                force = True
+            elif arg == "-fd":
+                force = True
+                factor = units[sys.argv[i+1]]
+            elif arg == "-fc":
+                force = True
+                factor = float(sys.argv[i+1])
             elif arg == "-h":
                 printHelp()
                 execute = False
