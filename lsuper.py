@@ -96,7 +96,7 @@ def main():
     printFullDir(directory, 0)
 
 def printHelp():
-    print("lsuper [-h help] [-d <depth> (0)] [-m minimal] [-f force unit to default] [-fd <name> (b) force unit to one in the dictionary] [-fc <factor> (1) force unit to a specific factor] [-i binary] [--noHidden] [--onlyFiles] [--onlyDirs]")
+    print("lsuper [-h help] [-d <depth> (0)] [-m minimal] [-f force unit to default] [-fd <name> (b) force unit to one in the dictionary] [-fc <factor> (1) force unit to a specific factor] [-bin binary units] [-dec decimal units] [--noHidden] [--onlyFiles] [--onlyDirs]")
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
@@ -114,8 +114,10 @@ if __name__ == "__main__":
                 showHidden = False
             elif arg == "-m":
                 minimal = True
-            elif arg == "-i":
+            elif arg == "-bin":
                 binary = True
+            elif arg == "-dec":
+                binary = False
             elif arg == "-f":
                 force = True
             elif arg == "-fd":
