@@ -6,6 +6,7 @@ from os.path import isfile, join, getsize
 from colorama import Fore, Style, Back
 
 from human import human
+from tostring import toString
 from config import *
 
 directory = getcwd()
@@ -52,8 +53,8 @@ def printf(filename, level, path):
     
     # Size
     size = getsize(join(path, filename))
-    if force:
-        text += "%.1f" % (size/factor)
+    if force: 
+        text += toString(size/factor) 
     else:
         text += human(size, binary)
 
