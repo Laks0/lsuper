@@ -1,5 +1,5 @@
 depth = 0
-showHidden = True
+showHidden = False
 onlyFiles = False
 onlyDirs = False
 
