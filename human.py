@@ -1,3 +1,4 @@
+
 from tostring import toString
 
 def human(n, binary):

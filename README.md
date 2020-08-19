@@ -4,8 +4,8 @@
 
 correr con 
 
-	python3 /ruta/al/archivo/lsuper.py
-es recomendable crear un alias "lsuper" al comando
+	/ruta/al/archivo/lsuper
+es recomendable crear un link al archivo en algun directorio dentro del path
 
 ### Configuración
 

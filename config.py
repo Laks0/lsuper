@@ -1,3 +1,4 @@
+
 depth = 0
 showHidden = False
 onlyFiles = False
