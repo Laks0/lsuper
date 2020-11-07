@@ -31,10 +31,10 @@ def printf(filename, level, path):
     text = ""
 
     for i in range(level):
-        text += "|"
+        text += "│"
         outputLen += 1
 
-    text += "L"
+    text += "├"
     outputLen += 1
 
     # Colors
@@ -51,7 +51,7 @@ def printf(filename, level, path):
     ### INFOBAR ###
     for i in range(infoSpace - outputLen): 
         text += " "
-    text += "|"
+    text += "│"
     
     # Size
     size = getsize(join(path, filename))
@@ -65,7 +65,7 @@ def printf(filename, level, path):
 def printd(dirname, level):
     text = ""
     for i in range(level + 1):
-        text += "|"
+        text += "│"
     text += Back.BLACK * (dirname[0] == ".") + Fore.GREEN
     text += dirname
     text += Style.RESET_ALL
